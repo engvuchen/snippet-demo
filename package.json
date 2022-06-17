@@ -1,20 +1,25 @@
 {
-    "name": "snippet-demo",
-    "displayName": "snippet-demo",
-    "description": "",
-    "version": "0.0.1",
-    "engines": {
-        "vscode": "^1.68.0"
-    },
-    "categories": [
-        "Snippets"
-    ],
-    "contributes": {
-        "snippets": [
-            {
-                "language": "",
-                "path": "./snippets/snippets.code-snippets"
-            }
-        ]
-    }
+  "name": "snippet-demo",
+  "displayName": "snippet-demo",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.68.0"
+  },
+  "categories": [
+    "Snippets"
+  ],
+  "scripts": {
+    "package": "node ./tools/package.js",
+    "update-snippet": "node ./tools/update-snippet/index.js",
+    "docs": "node tools/docs/index.js"
+  },
+  "contributes": {
+    "snippets": [
+      {
+        "language": "",
+        "path": "./snippets/snippets.code-snippets"
+      }
+    ]
+  }
 }
