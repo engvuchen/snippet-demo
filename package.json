@@ -10,15 +10,23 @@
     "Snippets"
   ],
   "scripts": {
-    "package": "node ./tools/package.js",
+    "pkg": "node ./tools/package/index.js",
     "update-snippet": "node ./tools/update-snippet/index.js",
     "docs": "node tools/docs/index.js"
   },
   "contributes": {
     "snippets": [
       {
-        "language": "",
-        "path": "./snippets/snippets.code-snippets"
+        "language": "javascript",
+        "path": "./snippets/javascript.json"
+      },
+      {
+        "language": "vue",
+        "path": "./snippets/vue.json"
+      },
+      {
+        "language": "proto3",
+        "path": "./snippets/proto3.json"
       }
     ]
   }

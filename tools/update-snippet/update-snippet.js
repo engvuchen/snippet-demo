@@ -2,12 +2,10 @@ let path = require('path');
 let {
   SNIPPET_FOLDER_PATHS,
   SNIPPET_FILTERS,
-  asyncAccess,
   asyncReadFile,
   asyncWriteFile,
-  asyncMkdir,
-  asyncReadDir,
-  asyncExec,
+  writeFileWithDirectory,
+  getPkg,
 } = require('../util');
 let { write2md } = require('../docs/docs');
 const CUR_PLATFORM_SNIPPET_PATH = SNIPPET_FOLDER_PATHS[process.platform];
@@ -35,12 +33,20 @@ function main() {
           });
         }
         let data = JSON.stringify(writeJSON, undefined, 2);
-        await asyncWriteFile(`./snippets/${language}.json`, data);
-        // await asyncMkdir(path.resolve(__dirname, '../../docs'));
-        await write2md(data, language);
+        await writeFileWithDirectory(path.resolve(__dirname, `../../snippets/${language}.json`), data);
+        write2md(writeJSON, language);
       }
     })
   );
+  writeSnippetConfToPackageJSON();
+}
+function writeSnippetConfToPackageJSON() {
+  let pkg = getPkg();
+  pkg.contributes.snippets = SNIPPET_FILTERS.map(curItem => ({
+    language: curItem.language,
+    path: `./snippets/${curItem.language}.json`,
+  }));
+  asyncWriteFile(path.resolve(__dirname, '../../package.json'), JSON.stringify(pkg, undefined, 2));
 }
 
 module.exports = {
