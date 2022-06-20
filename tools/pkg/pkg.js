@@ -32,7 +32,9 @@ async function main() {
   // ## 自动提交版号修改信息
   if (version) {
     await asyncChildProcessExec('git add package.json');
-    await asyncChildProcessExec(`git commit -m "U ${version}"`);
+    let versionLog = `git commit -m "U ${version}"`;
+    await asyncChildProcessExec(versionLog);
+    console.log(versionLog);
   }
   // ## 打包插件
   asyncChildProcessExec('vsce package');
