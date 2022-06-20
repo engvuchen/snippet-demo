@@ -1,8 +1,8 @@
 {
   "name": "snippet-demo",
   "displayName": "snippet-demo",
-  "description": "",
-  "version": "1.2.2",
+  "description": "简单易上手的 snippet vscode 插件模板",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.68.0"
   },
