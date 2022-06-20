@@ -1,9 +1,5 @@
 # Change Log
 
-All notable changes to the "snippet-demo" extension will be documented in this file.
+## 0.0.1 2022/06/20
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+1. 功能搭建完成。

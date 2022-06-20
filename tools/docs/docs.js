@@ -7,11 +7,12 @@ let { SNIPPET_FILTERS, asyncReadFile, writeFileWithDirectory } = require('../uti
 
 function main() {
   SNIPPET_FILTERS.forEach(async ({ language }) => {
-    let data = await asyncReadFile(`../snippets/${language}.json`);
+    let data = await asyncReadFile(path.resolve(__dirname, `../../snippets/${language}.json`));
     if (!data) return;
     try {
       data = JSON.parse(data);
     } catch {
+      console.error('file not found or file is not a json');
       return;
     }
     write2md(data, language);
@@ -59,7 +60,6 @@ async function write2md(data = {}, language) {
   });
   await writeFileWithDirectory(path.resolve(__dirname, `../../docs/${language}.md`), table.join('\n'));
 }
-console.log('生成文档成功。请在 ./docs 文件夹查看');
 
 function getLineContent(confArr = []) {
   let lines = [];

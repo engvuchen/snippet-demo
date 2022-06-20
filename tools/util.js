@@ -5,20 +5,8 @@ const SNIPPET_FOLDER_PATHS = {
   darwin: `${process.env.HOME}/Library/Application Support/Code/User/snippets`,
   linux: `${process.env.HOME}/.config/Code/User/snippets`,
 };
-const SNIPPET_FILTERS = [
-  {
-    language: 'javascript',
-    includes: ['@util'],
-  },
-  {
-    language: 'vue',
-    includes: [],
-  },
-  {
-    language: 'proto3',
-    includes: [],
-  },
-];
+const pkg = getPkg();
+const SNIPPET_FILTERS = pkg.snippetFilter || [];
 function promisify(fn) {
   return function (...args) {
     return new Promise((resolve, reject) => {
@@ -46,11 +34,8 @@ async function writeFileWithDirectory(fsPath, data) {
   fsPath = fsPath.replace(/\\/g, '/');
   let directory = fsPath.slice(0, fsPath.lastIndexOf('/'));
   if (!fs.existsSync(directory)) await asyncMkdir(directory, { recursive: true });
-
-  console.log('fsPath', fsPath);
   await asyncWriteFile(fsPath, data);
 }
-
 function getPkg() {
   return require('../package.json');
 }

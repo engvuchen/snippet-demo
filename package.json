@@ -10,7 +10,7 @@
     "Snippets"
   ],
   "scripts": {
-    "pkg": "node ./tools/package/index.js",
+    "pkg": "node ./tools/pkg/index.js",
     "update-snippet": "node ./tools/update-snippet/index.js",
     "docs": "node tools/docs/index.js"
   },
@@ -29,5 +29,21 @@
         "path": "./snippets/proto3.json"
       }
     ]
-  }
+  },
+  "snippetFilter": [
+    {
+      "language": "javascript",
+      "includes": [
+        "@util"
+      ]
+    },
+    {
+      "language": "vue",
+      "includes": []
+    },
+    {
+      "language": "proto3",
+      "includes": []
+    }
+  ]
 }

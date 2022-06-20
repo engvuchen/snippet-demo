@@ -1,7 +1,7 @@
 /**
  * NPM版本：Major / Minor / Patch
  * 每次打包插件，应自增版本号。
- * 调用： npm run package --major/--minor/--patch。vsce 需已安装
+ * 调用： npm run pkg --major/--minor/--patch。vsce 需已安装
  */
 
 let fs = require('fs');

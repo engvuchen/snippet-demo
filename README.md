@@ -1,65 +1,40 @@
 # snippet-demo README
 
-This is the README for your extension "snippet-demo". After writing up a brief description, we recommend including the following sections.
+简单易上手的 snippet vscode 插件模板；
 
-## Features
+## 功能
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### 选定 snippet 并生成文档
 
-For example if there is an image subfolder under your extension project workspace:
+1. 修改 `package.json` 中的 `snippetFilter`，选定指定语言的 snippet 或，选择其中的部分 snippet（通过 includes）；
 
-\!\[feature X\]\(images/feature-x.png\)
+例如：选定 javascript.json 中的 key 包含 `@util` 的部分
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+```json
+  "snippetFilter": [
+    {
+      "language": "javascript",
+      "includes": [
+        "@util"
+      ]
+    }
+  ]
+```
 
-## Requirements
+以下的 snippet 会被选中：
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+```json
+  "@util camel-case-to-under-score-case": {
+    "prefix": "util-to-under",
+    "body": ["${CLIPBOARD/([A-Z])/_${1:/downcase}/g}"],
+    "description": "将以大驼峰开头的字母替换为下划线形式"
+  },
+```
 
-## Extension Settings
+2. 运行 `npm run update-snippet`；
+3. `snippets` 文件夹下会生成选定 snippet 的 JSON 文件，`docs` 文件夹下会生成选定 snippet 的文档（一个语言对应一个，文档描述来自于 snippet 的 `description`）；
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### 打包插件，根据参数提升版本
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+1. 运行 `npm run pkg [--major/--minor/--patch]`；
+2. 若打包成功，插件出现在根目录；

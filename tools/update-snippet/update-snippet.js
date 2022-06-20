@@ -21,16 +21,18 @@ function main() {
         try {
           readResult = JSON.parse(readResult);
         } catch {
-          console.error(`${snippetPath} 内容不是 JSON`);
+          console.error(`file is not a JSON: ${snippetPath} `);
           return;
         }
-        let writeJSON = readResult;
+        let writeJSON = {};
         if (includeList && includeList.length) {
           Object.keys(readResult).forEach(key => {
             if (includeList.find(includeKey => key.includes(includeKey))) {
               writeJSON[key] = readResult[key];
             }
           });
+        } else {
+          writeJSON = readResult;
         }
         let data = JSON.stringify(writeJSON, undefined, 2);
         await writeFileWithDirectory(path.resolve(__dirname, `../../snippets/${language}.json`), data);

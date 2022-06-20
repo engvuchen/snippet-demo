@@ -1,2 +1,2 @@
-const main = require('./pkg');
+const { main } = require('./pkg');
 main();
