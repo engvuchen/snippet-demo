@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const childProcess = require('child_process');
 const SNIPPET_FOLDER_PATHS = {
   win32: `${process.env.APPDATA}\\Code\\User\\snippets`,
   darwin: `${process.env.HOME}/Library/Application Support/Code/User/snippets`,
@@ -29,6 +30,7 @@ const asyncReadFile = promisify(fs.readFile);
 const asyncWriteFile = promisify(fs.writeFile);
 const asyncMkdir = promisify(fs.mkdir);
 const asyncReadDir = promisify(fs.readdir);
+const asyncChildProcessExec = promisify(childProcess.exec);
 async function writeFileWithDirectory(fsPath, data) {
   // 参考：https://stackoverflow.com/questions/13542667/create-directory-when-writing-to-file-in-node-js
   fsPath = fsPath.replace(/\\/g, '/');
@@ -48,6 +50,7 @@ module.exports = {
   asyncWriteFile,
   asyncMkdir,
   asyncReadDir,
+  asyncChildProcessExec,
   writeFileWithDirectory,
   getPkg,
 };

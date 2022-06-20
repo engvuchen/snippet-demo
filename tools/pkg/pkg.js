@@ -5,11 +5,10 @@
  */
 
 const path = require('path');
-let { exec } = require('child_process');
-let { getPkg, asyncWriteFile } = require('../util');
+let { getPkg, asyncWriteFile, asyncChildProcessExec } = require('../util');
 
-function main() {
-  let tabWidth = 4;
+async function main() {
+  const tabWidth = 2;
   let content = getPkg();
   let indexRecord = [];
   let names = ['major', 'minor', 'patch'];
@@ -32,35 +31,11 @@ function main() {
   }
   // ## 自动提交版号修改信息
   if (version) {
-    exec('git add .', (err, stdout, stderr) => {
-      if (err) {
-        console.error(`exec error: ${err}`);
-        return;
-      }
-      if (stdout) console.log(`${stdout}`);
-      if (stderr) console.error(`stderr: ${stderr}`);
-    });
-    exec(`git commit -m "U ${version}"`, (err, stdout, stderr) => {
-      if (err) {
-        console.error(`exec error: ${err}`);
-        return;
-      }
-      if (stdout) console.log(`${stdout}`);
-      if (stderr) console.error(`stderr: ${stderr}`);
-    });
+    await asyncChildProcessExec('git add package.json');
+    await asyncChildProcessExec(`git commit -m "U ${version}"`);
   }
   // ## 打包插件
-  exec('vsce package', (err, stdout, stderr) => {
-    if (err) {
-      console.error(`exec error: ${err}`);
-      return;
-    }
-    if (stdout) {
-      console.log(`${stdout}`);
-      console.log('打包成功。请在根目录查看');
-    }
-    if (stderr) console.error(`stderr: ${stderr}`);
-  });
+  asyncChildProcessExec('vsce package');
 }
 
 module.exports = {
