@@ -4,20 +4,18 @@
  * 调用： npm run pkg --major/--minor/--patch。vsce 需已安装
  */
 
-let fs = require('fs');
+const path = require('path');
 let { exec } = require('child_process');
-let { getPkg } = require('../util');
+let { getPkg, asyncWriteFile } = require('../util');
 
 function main() {
   let tabWidth = 4;
   let content = getPkg();
-
   let indexRecord = [];
   let names = ['major', 'minor', 'patch'];
   names.forEach(name => {
     indexRecord.push(process.env[`npm_config_${name}`]);
   });
-
   // ## 修改版号
   let version = '';
   let findIndex = indexRecord.findIndex(curStr => curStr === 'true');
@@ -27,12 +25,11 @@ function main() {
     versionArr[findIndex] = patchNum + 1;
 
     content.version = versionArr.join('.');
+    asyncWriteFile(path.resolve(__dirname, '../../package.json'), JSON.stringify(content, undefined, tabWidth));
     version = content.version;
-    fs.writeFileSync(packageJsonPath, JSON.stringify(content, undefined, tabWidth));
   } else {
     console.log('没有传入参数。版本号未修改');
   }
-
   // ## 自动提交版号修改信息
   if (version) {
     exec('git add .', (err, stdout, stderr) => {
@@ -52,7 +49,6 @@ function main() {
       if (stderr) console.error(`stderr: ${stderr}`);
     });
   }
-
   // ## 打包插件
   exec('vsce package', (err, stdout, stderr) => {
     if (err) {
