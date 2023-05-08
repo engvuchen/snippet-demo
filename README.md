@@ -1,4 +1,4 @@
-# snippet-demo README
+# Snippet Demo
 
 快速提取指定本地 snippet 以生成 vscode snippet 插件；
 
