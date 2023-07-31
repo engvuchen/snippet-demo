@@ -58,7 +58,7 @@ async function write2md(data = {}, language) {
       ])
     );
   });
-  await writeFileWithDirectory(path.resolve(__dirname, `../../docs/${language}.md`), table.join('\n'));
+  await writeFileWithDirectory(path.resolve(__dirname, `../../my-snippet-demo/docs/${language}.md`), table.join('\n'));
 }
 
 function getLineContent(confArr = []) {

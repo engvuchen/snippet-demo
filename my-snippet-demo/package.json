@@ -1,0 +1,16 @@
+{
+  "name": "my-snippet-demo",
+  "icon": "icon.png",
+  "displayName": "my-snippet-demo",
+  "description": "我的 snippet",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.68.0"
+  },
+  "categories": [
+    "Snippets"
+  ],
+  "contributes": {
+    "snippets": []
+  }
+}

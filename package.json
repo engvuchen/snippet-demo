@@ -14,9 +14,6 @@
     "update-snippet": "node ./tools/update-snippet/index.js",
     "docs": "node tools/docs/index.js"
   },
-  "contributes": {
-    "snippets": []
-  },
   "snippetFilter": [
     {
       "language": "javascript",

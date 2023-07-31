@@ -35,7 +35,7 @@ function main() {
           writeJSON = readResult;
         }
         let data = JSON.stringify(writeJSON, undefined, 2);
-        await writeFileWithDirectory(path.resolve(__dirname, `../../snippets/${language}.json`), data);
+        await writeFileWithDirectory(path.resolve(__dirname, `../../my-snippet-demo/snippets/${language}.json`), data);
         write2md(writeJSON, language);
       }
     })

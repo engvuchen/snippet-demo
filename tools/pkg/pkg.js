@@ -5,7 +5,7 @@
  */
 
 const path = require('path');
-let { getPkg, asyncWriteFile, asyncChildProcessExec } = require('../util');
+let { getPkg, asyncWriteFile, asyncChildProcessExec, readFileList, asyncReadFile } = require('../util');
 
 async function main() {
   const tabWidth = 2;
@@ -36,8 +36,30 @@ async function main() {
     await asyncChildProcessExec(versionLog);
     console.log(versionLog);
   }
+  // ## 合并文档到 my-snippet-demo/readme.md
+  await summaryDocs();
+
   // ## 打包插件
-  asyncChildProcessExec('vsce package');
+  process.chdir('./my-snippet-demo');
+  await asyncChildProcessExec('vsce package');
+  console.log('✨打包成功');
+}
+async function summaryDocs() {
+  let filePathList = await readFileList(path.resolve(__dirname, '../../my-snippet-demo/docs'));
+  const mdPathList = filePathList.filter(filePath => {
+    return filePath.endsWith('.md');
+  });
+  let reg = /.+[\\/](.+)/;
+  const mdList = await Promise.all(
+    mdPathList.map(async curr => {
+      let [, fileName] = reg.exec(curr);
+      return `## ${fileName}\n${await asyncReadFile(curr)}`;
+    })
+  );
+  const summary = mdList.reduce((accu, curr) => {
+    return `${accu}\n\n${curr}`;
+  }, `# my-snippet-demo`);
+  await asyncWriteFile(path.resolve(__dirname, '../../my-snippet-demo/README.md'), summary);
 }
 
 module.exports = {

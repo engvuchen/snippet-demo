@@ -38,6 +38,21 @@ async function writeFileWithDirectory(fsPath, data) {
   if (!fs.existsSync(directory)) await asyncMkdir(directory, { recursive: true });
   await asyncWriteFile(fsPath, data);
 }
+async function readFileList(dirPath, fileList = []) {
+  const dirs = await asyncReadDir(dirPath);
+  let list = dirs.map(async curr => {
+    const fullPath = path.join(dirPath, curr); // curr的路径以本文件夹开始
+    // console.log('🚀 ~ file: util.js:45 ~ list ~ curr:', curr);
+    const stat = fs.statSync(fullPath);
+    if (stat.isDirectory()) {
+      await readFileList(fullPath, fileList);
+    } else {
+      fileList.push(fullPath);
+    }
+  })
+  await Promise.all(list);
+  return fileList;
+}
 function getPkg() {
   return require('../package.json');
 }
@@ -52,5 +67,6 @@ module.exports = {
   asyncReadDir,
   asyncChildProcessExec,
   writeFileWithDirectory,
+  readFileList,
   getPkg,
 };
